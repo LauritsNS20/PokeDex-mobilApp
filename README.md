@@ -1,2 +1,2 @@
 # PokeDex-mobilApp
-et pokedex til mobil
+et pokedex til en mobil app.
