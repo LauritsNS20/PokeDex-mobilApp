@@ -1,8 +1,15 @@
+/*Imports: This code imports necessary modules and components from React, React Native,
+
+useState: React hook for managing local state in functional components.
+
+useEffect: React hook for handling side effects in functional components. */
+
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useCallback, useEffect } from "react";
 import { StyleSheet, Text, View, FlatList, Image, Button, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+/*Constants: Define the base path and query parameters for making API requests to the PokeAPI*/ 
 const pokePath = "https://pokeapi.co/api/v2/";
 const pokeQuery = "pokemon?limit=151&offset=0";
 const firstGenPokemonPath = `${pokePath}${pokeQuery}`;
@@ -11,6 +18,7 @@ export default function App() {
   const [firstGenPokemonDetails, setFirstGenPokemonDetails] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
+  /*// Fetch first generation Pokémon details from PokeAPI*/ 
   useEffect(() => {
     const fetchFirstGenPokemons = async () => {
       const firstGenPokemonIdsResponse = await fetch(firstGenPokemonPath);
@@ -22,10 +30,11 @@ export default function App() {
           return await pDetails.json();
         })
       );
-
+      /*firstGenPokemonDetails: Stores details of first-generation Pokémon fetched from the API */
       setFirstGenPokemonDetails(firstGenPokemonDetails);
     };
 
+    /*Load favorites from AsyncStorage */
     const loadFavorites = async () => {
       try {
         const storedFavorites = await AsyncStorage.getItem('favorites');
@@ -37,10 +46,12 @@ export default function App() {
       }
     };
 
-    fetchFirstGenPokemons();
+    /*Fetch Pokémon details on component mount and Load favorites on component mount */
+    fetchFirstGenPokemons(); 
     loadFavorites();
   }, []);
 
+  /*Function to add a Pokémon to favorites */
   const addFavorite = async (name) => {
     try {
       const newFavorites = [...favorites, name];
@@ -56,6 +67,7 @@ export default function App() {
     Alert.alert("Favorites", favorites.join(', '));
   };
 
+    /* Function to render each Pokémon item */
   const renderPokemon = ({ item }) => {
     return (
       <View style={styles.pokemonContainer}>
@@ -84,6 +96,7 @@ export default function App() {
     );
   };
 
+  /*Return the component structure */
   return (
     <View style={styles.container}>
       <Text style={styles.title}>First Gen Pokemons</Text>
@@ -123,3 +136,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
 });
+
+
+/*This code fetches first-generation Pokémon data from an API, 
+allows users to mark Pokémon as favorites (stored locally using AsyncStorage),
+
+and provides a basic UI for interacting with Pokémon data (viewing details and adding to favorites). 
+The structure leverages React and React Native components with hooks for state management and side effects.
+ */
