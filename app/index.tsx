@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
 });
 
 
-/*This code fetches first-generation Pokémon data from an API, 
+/*my code fetches first-generation Pokémon data from an API, 
 allows users to mark Pokémon as favorites (stored locally using AsyncStorage),
 
 and provides a basic UI for interacting with Pokémon data (viewing details and adding to favorites). 
